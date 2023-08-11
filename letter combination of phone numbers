@@ -39,6 +39,18 @@ public:
     }
 };
 
+Complexity
+
+Time complexity:
+
+The time complexity of this approach is O(4^n) where n is the number of digits in the input string.
+This is because each digit can map to up to 4 letters in the worst case, and there are n digits in the input.
+
+Space complexity: 
+
+The space complexity is O(n) as we are using recursion and the maximum depth of the recursion is n.
+Additionally, we are using a result list to store the combinations, which can also take up to O(n) space in the worst case.
+
 
 
 
