@@ -1,0 +1,48 @@
+class Solution {
+    public:
+       void findCombination(int ind,string &temp,vector<string> &ans,string &s,unordered_map<char,string> &map)
+       {
+           //base case
+             if(ind==s.size()){
+                 ans.push_back(temp);
+                 return;
+             }
+            string str=map[s[ind]];  //map[2]--> this will return the "abc"
+            for(int i=0;i<str.size();i++)
+            {
+                temp.push_back(str[i]);
+                findCombination(ind+1,temp,ans,s,map);  
+                temp.pop_back(); 
+            }
+       }
+public:
+    vector<string> letterCombinations(string digits) {
+         vector<string> ans;
+        // edge case 
+        if(digits.size()==0)
+          return ans;
+
+        unordered_map<char, string> map = {
+            {'2', "abc"},
+            {'3', "def"},
+            {'4', "ghi"},
+            {'5', "jkl"},
+            {'6', "mno"},
+            {'7', "pqrs"},
+            {'8', "tuv"},
+            {'9', "wxyz"}
+        };
+       
+        string temp="";
+        findCombination(0,temp,ans,digits,map);
+        return ans;
+    }
+};
+
+
+
+
+
+
+
+
