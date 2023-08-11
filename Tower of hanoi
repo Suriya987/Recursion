@@ -21,7 +21,7 @@ class Solution{
 int main()  {
 
 int T;
-cin  >> T; 
+cin  >> T;  //test cases 
 while (T--)  {
 
 int N;
