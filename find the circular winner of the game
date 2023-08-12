@@ -1,0 +1,17 @@
+class Solution {
+    public:
+       int help(int n,int k)
+       {
+           //base case 
+           if(n==1){
+               return 0;
+           }
+           return (help(n-1,k)+k)%n;
+       }
+public:
+    int findTheWinner(int n, int k) {
+       return help(n,k)+1;
+       // the reason why we are adding 1 is becoz we just take mod of the every values 
+       //that is return to func call 
+    }
+};
