@@ -1,0 +1,44 @@
+// Problem understanding 
+
+1.when we added up all the pairs we need to push the current string to the result 
+2.we add open parantheses when (open < n)
+3.we add close when  (close < open)
+
+
+class Solution
+{
+    public:
+     void helper(int open,int close,vector<string> &res,string &temp,int n)
+     {
+         //base case
+         if(close == n &&  open == n){
+             res.push_back(temp);
+             return;
+         }
+         if(open<n){
+             temp.push_back('(');
+             helper(open+1,close,res,temp,n);
+             temp.pop_back();
+         }
+         if(close<open){
+             temp.push_back(')');
+             helper(open,close+1,res,temp,n);
+             temp.pop_back();
+         }
+     }
+    public:
+    vector<string> AllParenthesis(int n) 
+    {
+        vector<string> res;
+        string temp;
+        helper(0,0,res,temp,n);
+        return res;
+    }
+};
+
+Time Complexity:
+O(2^N)   for evry index we have an option either we add "(" or ")"  so that  it can be said the upper bound of the time 
+complexity is O(2^N)
+
+space complextiy
+  O(N)  when we use global or static variabe  to store the result the space complexity is reduced to O(N)
