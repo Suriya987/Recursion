@@ -1,0 +1,56 @@
+//intuition 
+using map like data structure to keep a track of the values which is need to be inserted 
+  1.If we insert a value in the current index add [1] to the data structure that we used as keep a track.
+  2.after we end up find one combination .During backtrack while pop back the last element  at the same time marked as a [0]
+for particular index in data structure that means we removed that element from our combination vector
+BASE CASE is whenever the our temp vector(used to store the combinations) is getting equal to the original input vector 
+at that time we consider we find one of the combinations.
+
+TIME ComPLEXITY
+  O(N!xN)
+   N! -> i am generating N! combinations so O(N!)
+   N -> I am  used looping from 0 - N  evrytime to generate new combinations  so, O(N)
+
+SPACE COMPLEXITY
+O(N) + O(N)
+   lets just ignore the result vector which stores the  N! combinations
+O(N)  used  for  generate combinations
+O(N)  used as a map  { this is going to be extra space. we see another model without using extra space }
+
+IMPORTANT POINT
+   #when we declaring the size for array we creating  by using variable named [n] always declare with 
+                    const int n = nums.size();
+  if we dont use const it will show "Variable-sized object may not be initialized"
+
+class Solution {
+    public:
+      void helper(vector<int>&nums,vector<vector<int>>&res,int mp[],vector<int> &temp)
+      {
+          //base case
+          if(temp.size()==nums.size()){
+              res.push_back(temp);
+              return;
+          }
+          for(int i=0;i<nums.size();i++)
+          {
+              
+              if(mp[i]==0){
+                  mp[i]=1;
+                 temp.push_back(nums[i]);
+                 helper(nums,res,mp,temp);
+                 mp[i]=0;
+                 temp.pop_back();
+              }
+           }
+      }
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> res;
+        vector<int> temp;
+       const int n=nums.size();
+        int mp[n];
+        for(int i=0;i<nums.size();i++)  mp[i]=0;
+        helper(nums,res,mp,temp);
+        return res;
+    }
+};
