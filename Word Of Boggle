@@ -1,0 +1,68 @@
+//TIME COMPLEXITY
+  N*M *  8^k
+1.  N*m  we have go through the every indexes to find the fisrt starting value at the worst case it will end up N*M
+2.  every possible indexes we  look up to 8 indexes it is completely based on height of the recursion tree.
+          Height of the recursion tree is fully based on length of the given string .
+      So, it is k -> length of the string.
+
+//SPACE COMPLEXITY
+  O(N) + 8^k
+    O(N) -> at the worst case the evry single string in the given dictionary is present in the given grid.
+    8^k  -> evry index of the recusion call would take space 
+O(N*M)  -> grid 
+
+
+bool find(vector<vector<char> >& board,string &temp,int i,int j,int strInd,int n1,int n2)
+      {
+          //base case 
+          if(strInd==temp.size()) return true;
+          //base case
+          if(i<0 || i>=n1 || j<0  || j>=n2 || board[i][j]!=temp[strInd] || board[i][j]=='&')
+            return false;
+            char t=board[i][j];
+           board[i][j]='&';
+          
+           bool d1=find(board,temp,i-1,j-1,strInd+1,n1,n2);
+           bool d2=find(board,temp,i-1,j,strInd+1,n1,n2);
+           bool d3=find(board,temp,i-1,j+1,strInd+1,n1,n2);
+           bool d4=find(board,temp,i,j-1,strInd+1,n1,n2);
+           bool d5=find(board,temp,i,j+1,strInd+1,n1,n2);
+           bool d6=find(board,temp,i+1,j-1,strInd+1,n1,n2);
+           bool d7=find(board,temp,i+1,j,strInd+1,n1,n2);
+           bool d8=find(board,temp,i+1,j+1,strInd+1,n1,n2);
+           
+           //after doing all the checks in 8 sides change into original values
+           board[i][j]=t;
+           //the above line is if any index not having any one possible value change that index to its original
+           //without this every index needs to be same because still a possible process are   there 
+           return  d1 || d2 || d3 || d4 || d5 || d6 || d7 || d8 ;
+      }
+public:
+	vector<string> wordBoggle(vector<vector<char> >& board, vector<string>& dictionary) {
+	     vector<string> res;
+	       int row=board.size();
+	       int col=board[0].size();
+	       int br=0;
+	       int n=dictionary.size();
+	       //accessing dict
+	       for(int k=0;k<n;k++){
+	       //row
+	       br=0;
+	       for(int i=0;i<row;i++)
+	       {
+	           //col
+	           for(int j=0;j<col;j++)
+	           {
+	                  if(find(board,dictionary[k],i,j,0,row,col)){
+	                      res.push_back(dictionary[k]);
+	                     br=1;
+	                      break;
+	                  }
+	           }
+	           if(br==1)
+	             break;
+	       }
+	       }
+	       return res;
+	}
+};
