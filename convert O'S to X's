@@ -1,0 +1,89 @@
+problem link
+   https://practice.geeksforgeeks.org/problems/replace-os-with-xs0052/1?page=1&difficulty[]=1&category[]=Recursion&sortBy=submissions
+
+problem description
+  we need to change the O's to X's when O's are surrounded by X's
+//Intution
+  1. we need to use flood fill algo technique to check outer index becoz the outer index O's doesnt have the X's which are 
+  surrounded so we need to find the O's which are linke it with
+  2.Keep a track of it when we visited one index we dont repeat the same index 
+  3.Use the original given data becoz in the question itself they mentioned 
+
+TIP  -> always ask the interviewer Can i use the given array or i need to use new array becoz of that original given data
+         is not used .
+
+TIME COMPLEXITY
+    O(N)+O(N)+O(N)+O(N) -> for traversing every edge indexes
+    how many time does dfs calls?
+       its all dependes on the cases example in worst case every element is O's we traversing every index for sure right!!
+      O(n*M)*4 -> it takes 
+So,overall is approximately  O(N*M)
+
+ SPACE COMPLEXITY
+    we use visited vector 2d matrix it has O(N*M)
+    in dfs worst case we call every indexes becoz it hase O's  so it would be O(N*M)
+so Overall it will be near about  O(N*M)
+
+class Solution{
+    public:
+      void dfs(int i,int j,vector<vector<char>> &mat,int row,int col,vector<vector<int>> &visit)
+      {
+          //base case
+          if(i<0 || i>=row || j<0 || j>=col || mat[i][j]!='O' || visit[i][j]==1 )  return;
+          //just marking it as a 1 becoz it is visited 
+            visit[i][j]=1;
+            
+           
+          dfs(i-1,j,mat,row,col,visit);
+          dfs(i+1,j,mat,row,col,visit);
+          dfs(i,j-1,mat,row,col,visit);
+          dfs(i,j+1,mat,row,col,visit);
+          
+      }
+    public:
+      void boundaries(vector<vector<char>> &mat,int row,int col,vector<vector<int>> &visit)
+      {
+          //top edge
+           for(int i=0;i<col;i++){
+               if(mat[0][i]=='O'){
+                   dfs(0,i,mat,row,col,visit);
+               }
+           }
+           //left edge
+           for(int i=0;i<row;i++){
+               if(mat[i][0]=='O'){
+                   dfs(i,0,mat,row,col,visit);
+               }
+           }
+           //bottom edge
+           for(int i=0;i<col;i++){
+               if(mat[row-1][i]=='O'){
+                   dfs(row-1,i,mat,row,col,visit);
+               }
+           }
+           //right edge
+           for(int i=0;i<row;i++){
+               if(mat[i][col-1]=='O'){
+                   dfs(i,col-1,mat,row,col,visit);
+               }
+           }
+      }
+public:
+    vector<vector<char>> fill(int n, int m, vector<vector<char>> mat)
+    {
+       // vector<vector<char>> res(n,vector<char>(m));
+        //initialisng the 2d vector with default value of 0
+        vector<vector<int>> visit(n,vector<int>(m,0));
+         boundaries(mat,n,m,visit);
+         for(int i=0;i<n;i++)
+         {
+             for(int j=0;j<m;j++)
+             {
+                 if(mat[i][j]=='O' && visit[i][j]!=1)
+                   mat[i][j]='X';
+             }
+         }
+         return mat;
+         
+    }
+};
