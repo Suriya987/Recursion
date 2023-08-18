@@ -1,0 +1,36 @@
+//this will be work but time limit exceeded
+  look into problem becoz here we used mod values
+
+class Solution {
+    int mod=1000000007;
+    private:
+      int findSubsequence(vector<int>&temp,vector<int>& nums,int target,int ind)
+      {
+          //base case
+            if(ind==nums.size() ){
+                //min and max from the temp vector.
+                if(temp.size()>=1){
+                int max = *max_element(temp.begin(), temp.end());
+                int min = *min_element(temp.begin(), temp.end());
+                if(max+min<=target)
+                  return 1;
+                  else
+                   return 0;
+                }
+                  else  return 0;
+            }
+            temp.push_back(nums[ind]);
+            int left=findSubsequence(temp,nums,target,ind+1)%mod;
+            temp.pop_back();
+            int right=findSubsequence(temp,nums,target,ind+1)%mod;
+            return (left+right)%mod;
+
+
+      }
+public:
+    int numSubseq(vector<int>& nums, int target) {
+        vector<int> temp;
+        int res=findSubsequence(temp,nums,target,0);
+        return res%mod;
+    }
+};
