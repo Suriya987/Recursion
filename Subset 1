@@ -1,0 +1,36 @@
+practice link
+https://www.codingninjas.com/studio/problems/subset-sum_3843086?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
+
+Generate all possible subsets of given array
+return the sum of every subsets including empty subset.
+Return in non increasing order means sorting order.
+
+Time complexity 
+
+ O(2^N)+O(Log(2^N)
+O(2^N)  for generating the subsets .Every index have two options either pick it or not pick it 
+O(Log(2^N)) this is for sorting the subsets sum vector.
+
+Space complexity 
+
+O(2^N) 
+
+void findSubsetSum(vector<int>&res,vector<int>&nums,int ind,int sum)
+{
+	//base case
+	if(ind==nums.size()){
+		res.push_back(sum);
+		return;
+	}
+	sum+=nums[ind];
+	findSubsetSum(res,nums,ind+1,sum);
+	sum=sum-nums[ind];
+	findSubsetSum(res,nums,ind+1,sum);
+
+}
+vector<int> subsetSum(vector<int> &num){
+     vector<int> res;
+	 findSubsetSum(res,num,0,0);
+	 sort(res.begin(),res.end());
+	 return res;		
+}
