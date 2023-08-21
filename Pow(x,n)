@@ -1,0 +1,39 @@
+practice link
+     https://leetcode.com/problems/powx-n/
+
+1.Brute Force
+we can simply do it in using for loops but it will get time limit exceeded  
+
+2.divide and conquer method
+
+divide N until it gets 0
+    ex 10/2 5---> 5/2 2---->2/2 1-->1/2 0   from this backtrack 
+Time complexity  
+  O(n/2)
+Space Complexity
+  O(n/2)
+
+class Solution {
+public:
+       double rec(double x,long long n){
+		//base case
+		if(n==0)
+		  return 1.0;
+		double half = rec(x,n/2);
+		if(n%2==0){
+			return half*half;  //2 * 2  ->1+1 = 2
+		}
+		else{
+			return half*half*x; 
+		}
+	}
+    double myPow(double x, int n) {
+			long long num=n;
+        if(n<0)
+		  {
+			  x=1/x;
+			  num=-1*num;
+		  }
+		  return rec(x,num);
+    }
+};
