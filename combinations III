@@ -1,0 +1,67 @@
+practice link
+  https://leetcode.com/problems/combination-sum-iii/description/
+
+Disclaimer :
+   Just give a try and then see the soln :)
+
+
+
+# Code
+```
+class Solution {
+    private:
+      void findCombinations(vector<vector<int>> &res,vector<int> &ds,int num,int k,int n,int sum)
+      {
+          int len=ds.size();
+          //base case
+// if our sum reaches over target dont go after that 
+// if our len is equal to k dont go 
+// if our num goes beyond 9 we need to stop it 
+           if(len==k || num>9 || sum>n){
+// if any of the condition is true and the sum also equals to target and the
+             length is also equals to K we add into our result set 
+
+// why we need to check the length becoz if target is 7 and 7 is inside the limit right (1-7) 
+             //even one element will give sum==target to avoid that we check the length
+               if(sum==n && len==k){
+                   res.push_back(ds);
+               }
+               return;
+           }
+// every index have two options pick 1st element or pick 2 nd element 
+           sum+=num;
+           ds.push_back(num);
+           findCombinations(res,ds,num+1,k,n,sum);
+// performing pick 2nd element  .
+           ds.pop_back();
+           sum=sum-num;
+           findCombinations(res,ds,num+1,k,n,sum);
+
+
+      }
+public:
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> res;
+        vector<int> ds;
+        findCombinations(res,ds,1,k,n,0);
+        return res;
+    }
+};
+
+# Complexity
+- Time complexity:
+<!-- Add your time complexity here, e.g. $$O(n)$$ -->
+O(2^k)xO(N)
+
+O(2^k) -> for generating combiantions
+why K and not N?
+   becoz we are going to deep till K level that means that is the length of our combinations
+
+O(N) -> every time when we have combinatiojns size K and it is satifies our condition means we put the result combination into ans vector right . Assume that the length  is n in the worst case .
+  for exmaple 
+     pick 1-> 2   target =3  output is 1,2 so we end up wiht adding all elements push into our result set right.. thats why O(N) 
+
+- Space complexity:
+<!-- Add your space complexity here, e.g. $$O(n)$$ -->
+O(2^K)*O(K) 
+  2^K combinations and K is the length of the combinations
