@@ -1,0 +1,81 @@
+Practice Link
+    https://leetcode.com/problems/palindrome-partitioning/description/
+
+
+
+s = "aaab"
+output = [["a","a","a","b"],["a","aa","b"],["aa","a","b"],["aaa","b"]]
+
+s = "abcaa"
+output = [["a","b","c","a","a"],["a","b","c","aa"]]
+
+s = "abbab"
+output = [["a","b","b","a","b"],["a","b","bab"],["a","bb","a","b"],
+["abba","b"]]
+
+s = "abaca"
+output = [["a","b","a","c","a"],["a","b","aca"],["aba","c","a"]]
+
+s = "aaa"
+output = [["a","a","a"],["a","aa"],["aa","a"],["aaa"]]
+
+
+class Solution {
+    private:
+    void findPartition(int ind,string &s,vector<vector<string>>&res,vector<string>&temp)
+    {
+        //base case
+         if(ind==s.size()){
+             res.push_back(temp);
+             return;
+         }
+         for(int i=ind;i<s.size();i++){
+             if(isPalindrome(ind,i,s)){ 
+                   //this substr fun will get the values  from ind and before its end (its not going to pick the end)
+                 temp.push_back(s.substr(ind,(i-ind)+1));
+                 findPartition(i+1,s,res,temp);
+                 temp.pop_back();
+             }
+         }
+    }
+    bool isPalindrome(int start,int end,string &s)
+    {
+        while(start<=end)
+        {
+            if(s[start++]!=s[end--]) return false;
+            // start++;
+            // end--;
+        }
+        return true;
+    }
+public:
+    vector<vector<string>> partition(string s) {
+        vector<vector<string>> res;
+        vector<string> temp;
+        findPartition(0,s,res,temp);
+        return res;
+    }
+};
+
+# Complexity
+
+- Time complexity:
+
+O(2^N)xO(N/2)xO(K)
+ O(2^N)  is the generating partitions 
+O(N/2)   is for checking the string is palindrome or not
+  why N/2 means we are using a two pointer approach
+ if string is N  we check from both the sides so
+O(k)  is for inserting the elements into a data structure(result set)  average length of th palindrome list
+
+- Space complexity:
+
+O(N) is the auxillary space (height of the recursion tree)
+O(X) * O(k)
+ O(x) is the number of combinations that we have in the result set
+O(K) is the average length of our string in  the result
+
+
+
+
+
