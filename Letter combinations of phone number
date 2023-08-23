@@ -1,0 +1,90 @@
+Practice Link
+    https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/
+
+Time Complexity 
+  O(4^K)  at wrst case we have the string lenght of phone for particular digits 
+  K is the length of the given Str.
+
+Space Complexity
+    O(N) where N is the strings we stored in HashMap
+  O(4^K) this much of pairs we push into our result set.
+O(K) is the auxillary space  (height of the recursion tree)
+
+
+class Solution {
+    public:
+       void findCombination(int ind,string &temp,vector<string> &ans,string &s,unordered_map<char,string> &map)
+       {
+           //base case
+             if(ind==s.size()){
+                 ans.push_back(temp);
+                 return;
+             }
+            string str=map[s[ind]];  //map[2]--> this will return the "abc"
+            for(int i=0;i<str.size();i++)
+            {
+                temp.push_back(str[i]);
+                findCombination(ind+1,temp,ans,s,map);  
+                temp.pop_back(); 
+            }
+       }
+public:
+    vector<string> letterCombinations(string digits) {
+         vector<string> ans;
+        // edge case 
+        if(digits.size()==0)
+          return ans;
+
+        unordered_map<char, string> map = {
+            {'2', "abc"},
+            {'3', "def"},
+            {'4', "ghi"},
+            {'5', "jkl"},
+            {'6', "mno"},
+            {'7', "pqrs"},
+            {'8', "tuv"},
+            {'9', "wxyz"}
+        };
+       
+        string temp="";
+        findCombination(0,temp,ans,digits,map);
+        return ans;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
