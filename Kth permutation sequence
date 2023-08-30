@@ -1,0 +1,53 @@
+Problem link:
+    https://leetcode.com/problems/permutation-sequence/description/
+
+Brute force  approach
+    Generate permutation combiantion for n numbers and sort this and return the Kth sequence
+
+Optimal approach
+   using mathematical .
+       How?
+         for finding the kth we need n number of sequence right  
+          first ->  for finding the 1st ele of result set  we need to do a fact of n-1 numbers and divide the needed sequence by fact 
+          second -> store the current index to out res string 
+          third ->  base case while doing is think about this?..
+                       when the result set is equal to n we end up 
+                       or else   
+                       when the dummy string is geeting 0 length we end up
+
+Time Complexity  
+    O(N^2)   
+  O(N)  for using while loop to generate a new element to new index
+  O(N)  for erasing the element from the vector
+
+Space Complexity 
+   O(N) for storing  the result 
+
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        string rs;
+        int fact=1;
+        vector<int>dummy;
+    //fact of given num and store 1-n in vector
+         for(int i=1;i<n;i++)
+         {
+             fact=fact*i;
+             dummy.push_back(i);
+         }
+         dummy.push_back(n);
+         //i am using zero based index so if we need 3 sequence return 2 index becoz 0,1,2 got it !..
+         k=k-1;
+         while(dummy.size()!=0){
+             int ind=k/fact;
+             rs=rs+to_string(dummy[ind]);
+              dummy.erase(dummy.begin()+ind);
+              if(dummy.size()==0)  break;
+              //after done with one index we need to find the next index that suitable for next pos of our res string  got it!..
+              k=k%fact;
+              //we done with current string len and now we have new len for our vector so we reduce to that level 
+              fact=fact/dummy.size();
+         }
+         return rs;
+    }
+};
